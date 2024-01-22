@@ -6,7 +6,7 @@ func main() {
 	var str string
 	var sum int
 	sum = 0
-	str = "XCVIII"
+	str = "MCMXCIV"
 	for i:=0; i<len(str); i++{
 		if str[i]=='I'{
 			if i+1 < len(str) && str[i+1]=='V'{
@@ -27,16 +27,21 @@ func main() {
 			}else if i+1 < len(str) && str[i+1]=='C'{
 				sum = sum + 90
 				i++
-			}else if str[i+1]=='M'{
-				sum = sum + 990
-				i++
 			}else{
 				sum = sum + 10
 			}
 		}else if str[i]=='L'{
 			sum = sum + 50
 		}else if str[i]=='C'{
-			sum = sum + 100
+			if i+1 < len(str) && str[i+1]=='D'{
+				sum = sum + 400
+				i++
+			}else if str[i+1]=='M'{
+				sum = sum + 900
+				i++
+			}else{
+				sum = sum + 100
+			}
 		}else if str[i]=='D'{
 			sum = sum + 500
 		}else if str[i]=='M'{
