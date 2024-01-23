@@ -15,7 +15,7 @@ func main(){
 
 	ans, freq := highestFreq(str)
 
-	fmt.Println(ans, freq)
+	fmt.Printf("%v, %v", ans, freq)
 
 }
 

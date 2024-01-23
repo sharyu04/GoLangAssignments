@@ -8,9 +8,9 @@ func main(){
 	fmt.Scanln(&index)
 	day := checkTheDay(index)
 	if day==""{
-		fmt.Println("Not a day")
+		fmt.Printf("Not a day")
 	}else{
-		fmt.Println(day)
+		fmt.Printf("%s",day)
 	}
 }
 

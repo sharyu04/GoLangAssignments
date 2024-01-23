@@ -33,9 +33,9 @@ func main(){
 
 	arr3 = arr[idx2:]
 
-	fmt.Println(arr1)
-	fmt.Println(arr2)
-	fmt.Println(arr3)
+	fmt.Printf("%v",arr1)
+	fmt.Printf("%v",arr2)
+	fmt.Printf("%v",arr3)
 	
 
 }
