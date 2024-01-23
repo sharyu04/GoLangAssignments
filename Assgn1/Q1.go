@@ -7,13 +7,13 @@ func main() {
 	var principal float64
 	var ROI float64
 	var Time float64
-	fmt.Print("Enter the principal amount : ")
+	fmt.Printf("Enter the principal amount : ")
 	fmt.Scanln(&principal)
-	fmt.Print("Enter the rate of interest : ")
+	fmt.Printf("Enter the rate of interest : ")
 	fmt.Scanln(&ROI)
-	fmt.Print("Enter the Time period in years : ")
+	fmt.Printf("Enter the Time period in years : ")
 	fmt.Scanln(&Time)
-	fmt.Print("Simple Interest = ",SiCalculator(principal,ROI,Time))
+	fmt.Println("Simple Interest = ",SiCalculator(principal,ROI,Time))
 }
 
 func SiCalculator(principal float64, ROI float64, Time float64) string{
