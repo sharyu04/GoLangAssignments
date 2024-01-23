@@ -7,7 +7,7 @@ import (
 
 func main() {
 	var radius float64
-	fmt.Print("Enter radius : ")
+	fmt.Printf("Enter radius : ")
 	fmt.Scanln(&radius)
 	fmt.Println("Area = ",area(radius))
 }
