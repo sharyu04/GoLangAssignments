@@ -4,9 +4,16 @@ import "fmt"
 
 func main() {
 	var str string
+	fmt.Print("Enter the Roman Numerical value : ")
+	fmt.Scanln(&str)
+	// str = "MCMXCIV"
+	
+	fmt.Println("Number in Integer : ",convertToInt(str))
+}
+
+func convertToInt(str string)int{
 	var sum int
 	sum = 0
-	str = "MCMXCIV"
 	for i:=0; i<len(str); i++{
 		if str[i]=='I'{
 			if i+1 < len(str) && str[i+1]=='V'{
@@ -48,5 +55,5 @@ func main() {
 			sum = sum + 1000
 		}
 	}
-	fmt.Println("Number in Integer : ",sum)
+	return sum
 }
