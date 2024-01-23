@@ -7,9 +7,14 @@ import (
 
 func main() {
 	var radius float64
+	fmt.Print("Enter radius : ")
+	fmt.Scanln(&radius)
+	fmt.Println("Area = ",area(radius))
+}
+
+func area(radius float64)string{
 	var area float64
-	radius = 2
 	area = math.Pi * math.Pow(radius, 2)
 	ans := fmt.Sprintf("%.2f",area)
-	fmt.Println("Area = ",ans)
+	return ans
 }

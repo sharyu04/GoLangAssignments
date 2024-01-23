@@ -4,10 +4,21 @@ package main
 import "fmt"
 
 func main() {
-	principal := 1000
-	ROI := 5
-	Time := 3
+	var principal float64
+	var ROI float64
+	var Time float64
+	fmt.Print("Enter the principal amount : ")
+	fmt.Scanln(&principal)
+	fmt.Print("Enter the rate of interest : ")
+	fmt.Scanln(&ROI)
+	fmt.Print("Enter the Time period in years : ")
+	fmt.Scanln(&Time)
+	fmt.Print("Simple Interest = ",SiCalculator(principal,ROI,Time))
+}
+
+func SiCalculator(principal float64, ROI float64, Time float64) string{
 	SI := (principal * ROI * Time)/100
-	ans := fmt.Sprintf("%.2f",float64(SI))
-	fmt.Println("Simple Interest = ", ans)
+	var ans string
+	ans = fmt.Sprintf("%.2f",float64(SI))
+	return ans
 }
