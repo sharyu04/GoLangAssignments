@@ -10,8 +10,8 @@ import (
 func main(){
 
 	reader := bufio.NewReader(os.Stdin)
-    fmt.Printf("Enter a string input: ")
-    str, _ := reader.ReadString('\n')
+    	fmt.Printf("Enter a string input: ")
+    	str, _ := reader.ReadString('\n')
 
 	ans, freq := highestFreq(str)
 
