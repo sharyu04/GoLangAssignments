@@ -28,7 +28,6 @@ func highestFreq(str string) ([]string, int){
 
 	var maxFreq int
 	var ans []string
-	// var ans = []string{}
 	for word,freq := range mp{
 		if freq > maxFreq{
 			maxFreq = freq
