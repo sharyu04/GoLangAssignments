@@ -1,43 +1,20 @@
 package main
 
-import (
-	"fmt"
-	"strings"
-	"bufio"
-	"os"
-)
+import "fmt"
 
 func main(){
-
-	reader := bufio.NewReader(os.Stdin)
-    fmt.Printf("Enter a string input: ")
-    str, _ := reader.ReadString('\n')
-
-	ans, freq := highestFreq(str)
-
-	fmt.Printf("%v, %v", ans, freq)
-
+	var index int
+	fmt.Print("Enter the index : ")
+	fmt.Scanln(&index)
+	day := checkTheDay(index)
+	if day==""{
+		fmt.Printf("Not a day")
+	}else{
+		fmt.Printf("%s",day)
+	}
 }
 
-func highestFreq(str string) ([]string, int){
-	slc := strings.Split(str, " ")
-	mp := map[string]int{}
-	for _,word := range slc{
-		mp[word]++
-	}
-
-	var maxFreq int
-	var ans []string
-	// var ans = []string{}
-	for word,freq := range mp{
-		if freq > maxFreq{
-			maxFreq = freq
-			ans = []string{word}
-		}else if freq == maxFreq{
-			ans = append(ans,word)
-		}
-	}
-
-	return ans, maxFreq
-
+func checkTheDay(index int) string{
+	var days map[int]string = map[int]string{1:"Monday", 2:"Tuesday", 3:"Wednesday", 4:"Thursday", 5:"Friday", 6:"Saturday", 7:"Sunday"}
+	return days[index]
 }

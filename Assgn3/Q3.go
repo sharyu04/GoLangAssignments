@@ -1,41 +1,43 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+	"bufio"
+	"os"
+)
 
 func main(){
-	var idx1 int
-	var idx2 int
-	fmt.Printf("Enter two integers : ")
-	fmt.Scanln(&idx1, &idx2)
 
-	var arr = [8]string{"qwe", "wer", "ert", "rty", "tyu", "yui", "uio", "iop"}
-	
-	if idx1 > idx2 || idx1<0 || idx2>7{
-		fmt.Printf("Invalid Indexes")
-		return
+	reader := bufio.NewReader(os.Stdin)
+    fmt.Printf("Enter a string input: ")
+    str, _ := reader.ReadString('\n')
+
+	ans, freq := highestFreq(str)
+
+	fmt.Printf("%v, %v", ans, freq)
+
+}
+
+func highestFreq(str string) ([]string, int){
+	slc := strings.Split(str, " ")
+	mp := map[string]int{}
+	for _,word := range slc{
+		mp[word]++
 	}
 
-	var arr1 []string
-	var arr2 []string
-	var arr3 []string
-
-	if idx1+1<=7{
-		arr1 = arr[:idx1+1]
-	}else{
-		arr1 = arr[:]
+	var maxFreq int
+	var ans []string
+	// var ans = []string{}
+	for word,freq := range mp{
+		if freq > maxFreq{
+			maxFreq = freq
+			ans = []string{word}
+		}else if freq == maxFreq{
+			ans = append(ans,word)
+		}
 	}
 
-	if idx2+1>=7{
-		arr2 = arr[idx1:]
-	}else{
-		arr2 = arr[idx1:idx2+1]
-	}
-
-	arr3 = arr[idx2:]
-
-	fmt.Printf("%v",arr1)
-	fmt.Printf("%v",arr2)
-	fmt.Printf("%v",arr3)
-	
+	return ans, maxFreq
 
 }
