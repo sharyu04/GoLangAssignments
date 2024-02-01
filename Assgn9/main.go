@@ -25,12 +25,12 @@ func main() {
 
 	r.HandleFunc("/input", getWebsiteList).Methods("POST")
 
-	r.HandleFunc("/check", checkWebsiteStatus).Methods("GET")
+	r.HandleFunc("/check", checkWebsiteStatusHandler).Methods("GET")
 
 	go func() {
 		for {
 			if list != nil {
-				backgroundJob(list)
+				checkWebsiteStatus(list)
 				time.Sleep(time.Minute)
 			}
 		}
@@ -54,8 +54,8 @@ func getWebsiteList(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func backgroundJob(web []string) {
-	fmt.Println("running backgroundJob")
+func checkWebsiteStatus(web []string) {
+	fmt.Println("running checkWebsiteStatus")
 	for _, data := range web {
 
 		go func(data string) {
@@ -76,7 +76,7 @@ func backgroundJob(web []string) {
 	}
 }
 
-func checkWebsiteStatus(w http.ResponseWriter, r *http.Request) {
+func checkWebsiteStatusHandler(w http.ResponseWriter, r *http.Request) {
 
 	if len(websiteMap) == 0 {
 		w.WriteHeader(http.StatusNoContent)
