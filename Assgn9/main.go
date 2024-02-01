@@ -30,7 +30,7 @@ func main() {
 	go func() {
 		for {
 			if list != nil {
-				go backgroundJob(list)
+				backgroundJob(list)
 				time.Sleep(time.Minute)
 			}
 		}
@@ -58,18 +58,21 @@ func backgroundJob(web []string) {
 	fmt.Println("running backgroundJob")
 	for _, data := range web {
 
-		response, err := http.Get("https://" + data)
-		if err == nil {
-			responseStatus := response.StatusCode
-			if responseStatus == 200 {
-				websiteMap[data] = "UP"
+		go func(data string) {
+			response, err := http.Get("https://" + data)
+			if err == nil {
+				responseStatus := response.StatusCode
+				if responseStatus == 200 {
+					websiteMap[data] = "UP"
+				} else {
+					websiteMap[data] = "DOWN"
+				}
+
 			} else {
 				websiteMap[data] = "DOWN"
 			}
+		}(data)
 
-		} else {
-			websiteMap[data] = "DOWN"
-		}
 	}
 }
 
