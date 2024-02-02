@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -9,28 +10,36 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type Websites struct {
+type UserInput struct {
 	List []string `json:"websites"`
 }
 
-var websiteMap map[string]string = make(map[string]string)
+type httpChecker struct {
+	websiteMap map[string]string
+}
+
+// var websiteMap map[string]string = make(map[string]string)
 var list []string
 
 func main() {
 	fmt.Println("Starting server")
 
+	ctx := context.Background()
+
 	r := mux.NewRouter()
+
+	websiteObj := httpChecker{make(map[string]string)}
 
 	r.HandleFunc("/", genericHandler)
 
 	r.HandleFunc("/input", getWebsiteList).Methods("POST")
 
-	r.HandleFunc("/check", checkWebsiteStatusHandler).Methods("GET")
+	r.HandleFunc("/check", websiteObj.checkWebsiteStatusHandler).Methods("GET")
 
 	go func() {
 		for {
 			if list != nil {
-				checkWebsiteStatus(list)
+				websiteObj.checkWebsiteStatus(ctx, list)
 				time.Sleep(time.Minute)
 			}
 		}
@@ -41,7 +50,7 @@ func main() {
 }
 
 func getWebsiteList(w http.ResponseWriter, r *http.Request) {
-	var website Websites
+	var website UserInput
 	err := json.NewDecoder(r.Body).Decode(&website)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -54,7 +63,7 @@ func getWebsiteList(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func checkWebsiteStatus(web []string) {
+func (websiteObj *httpChecker) checkWebsiteStatus(ctx context.Context, web []string) {
 	fmt.Println("running checkWebsiteStatus")
 	for _, data := range web {
 
@@ -63,22 +72,22 @@ func checkWebsiteStatus(web []string) {
 			if err == nil {
 				responseStatus := response.StatusCode
 				if responseStatus == 200 {
-					websiteMap[data] = "UP"
+					websiteObj.websiteMap[data] = "UP"
 				} else {
-					websiteMap[data] = "DOWN"
+					websiteObj.websiteMap[data] = "DOWN"
 				}
 
 			} else {
-				websiteMap[data] = "DOWN"
+				websiteObj.websiteMap[data] = "DOWN"
 			}
 		}(data)
 
 	}
 }
 
-func checkWebsiteStatusHandler(w http.ResponseWriter, r *http.Request) {
+func (websiteObj *httpChecker) checkWebsiteStatusHandler(w http.ResponseWriter, r *http.Request) {
 
-	if len(websiteMap) == 0 {
+	if len(websiteObj.websiteMap) == 0 {
 		w.WriteHeader(http.StatusNoContent)
 		w.Write([]byte("The map is empty"))
 		return
@@ -88,7 +97,7 @@ func checkWebsiteStatusHandler(w http.ResponseWriter, r *http.Request) {
 
 	if name != "" {
 
-		_, ok := websiteMap[name]
+		_, ok := websiteObj.websiteMap[name]
 
 		if !ok {
 			w.WriteHeader(http.StatusBadRequest)
@@ -96,7 +105,7 @@ func checkWebsiteStatusHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		respJson, err := json.Marshal(map[string]string{name: websiteMap[name]})
+		respJson, err := json.Marshal(map[string]string{name: websiteObj.websiteMap[name]})
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
@@ -106,7 +115,7 @@ func checkWebsiteStatusHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	respJson, err := json.Marshal(websiteMap)
+	respJson, err := json.Marshal(websiteObj.websiteMap)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
