@@ -22,17 +22,16 @@ func main() {
 			return
 		}
 		fmt.Println(n, "is odd")
-		ch<-struct{}{}
+		ch <- struct{}{}
 	}()
 
 	go func() {
-		select{
+		select {
 		case <-ch:
 			break
 		}
 		n++
 	}()
 
-	// just waiting for the goroutines to finish before exiting
 	time.Sleep(time.Second)
 }

@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"time"
 	"sync"
+	"time"
 )
 
 func isEven(n int) bool {
@@ -33,6 +33,5 @@ func main() {
 		mu.Unlock()
 	}()
 
-	// just waiting for the goroutines to finish before exiting
 	time.Sleep(time.Second)
 }
